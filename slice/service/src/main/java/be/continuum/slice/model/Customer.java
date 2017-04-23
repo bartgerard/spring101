@@ -1,0 +1,120 @@
+package be.continuum.slice.model;
+
+import be.continuum.slice.event.AddPhoneNumber;
+import be.continuum.slice.event.ChangeCoreCustomerData;
+import be.continuum.slice.event.RemovePhoneNumber;
+import be.continuum.slice.value.Address;
+import be.continuum.slice.value.FoodAllergen;
+import be.continuum.slice.value.PhoneNumber;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.MapKeyColumn;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import static lombok.AccessLevel.PRIVATE;
+
+/**
+ * Customer
+ *
+ * @author bartgerard
+ * @version v0.0.1
+ */
+@Entity
+@NoArgsConstructor(access = PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
+@Getter
+@Builder
+@EqualsAndHashCode(of = "email")
+public class Customer {
+
+    @Id
+    private String email;
+
+    private String username;
+
+    private String firstName;
+
+    private String lastName;
+
+    @Embedded
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "customer_phone",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            foreignKey = @ForeignKey(name = "fk_customer_phone")
+    )
+    private final Set<PhoneNumber> phoneNumbers = new HashSet<>();
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(
+            name = "customer_allergen",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            foreignKey = @ForeignKey(name = "fk_customer_allergen")
+    )
+    @Column(name = "allergen")
+    private final Set<FoodAllergen> allergens = new HashSet<>();
+
+    @Embedded
+    @ElementCollection
+    @JoinTable(
+            name = "customer_address",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            foreignKey = @ForeignKey(name = "fk_customer_address")
+    )
+    @MapKeyColumn(name = "alias") // alternative more specific annotations : @MapKeyEnumerated, ...
+    private final Map<String, Address> addresses = new HashMap<>();
+
+    public void handle(final ChangeCoreCustomerData changeCoreCustomerData) {
+        this.username = changeCoreCustomerData.getUsername();
+        this.firstName = changeCoreCustomerData.getFirstName();
+        this.lastName = changeCoreCustomerData.getLastName();
+    }
+
+    public void handle(final AddPhoneNumber addPhoneNumber) {
+        this.phoneNumbers.add(addPhoneNumber.getPhoneNumber());
+    }
+
+    public void handle(final RemovePhoneNumber removePhoneNumber) {
+        this.phoneNumbers.remove(removePhoneNumber.getPhoneNumber());
+    }
+
+    public void addAllergen(final FoodAllergen allergen) {
+        this.allergens.add(allergen);
+    }
+
+    public void removeAllergen(final FoodAllergen allergen) {
+        this.allergens.remove(allergen);
+    }
+
+    public void addAddress(
+            final String alias,
+            final Address address
+    ) {
+        this.addresses.put(alias, address);
+    }
+
+    public void removeAddress(final String alias) {
+        this.addresses.remove(alias);
+    }
+
+}
