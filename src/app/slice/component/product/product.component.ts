@@ -9,17 +9,18 @@ import {Product} from "../../model/product";
 })
 export class ProductComponent implements OnInit {
 
-  product: Product;
+  text: string = 'a';
+  product: Product = null;
 
   constructor(private productService: ProductService) {
   }
 
   ngOnInit() {
-    this.ping();
+    this.productService.ping().subscribe((text) => this.text = text);
   }
 
   ping(): void {
-    this.productService.ping().subscribe((product: Product) => this.product = product);
+    //this.productService.findAll().subscribe((products: Product[]) => this.product = products[0]);
   }
 
 }
