@@ -28,10 +28,11 @@ npm-check -u
 
 
 
+# Bootstrap
 
+npm install --save bootstrap
 
-
-
+Add "../node_modules/bootstrap/dist/css/bootstrap.min.css" to styles in .angular-cli.json
 
 
 
