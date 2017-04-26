@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 
-    private static final String FIND_BY_EMAIL = "SELECT c.username FROM CUSTOMER c WHERE c.email LIKE :email";
+    private static final String FIND_BY_EMAIL = "SELECT c.username, c.email, c.first_name, c.last_name FROM CUSTOMER c WHERE c.email LIKE :email";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -29,7 +29,11 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
                 parameters,
                 (rs, i) -> Customer.builder()
                                    .username(rs.getString("username"))
-                                   .build());
+                                   .email(rs.getString("email"))
+                                   .firstName(rs.getString("first_name"))
+                                   .lastName(rs.getString("last_name"))
+                                   .build()
+        );
     }
 
 }
