@@ -27,8 +27,8 @@ public class CustomerRepositoryTest {
     @Test
     public void saveCustomer() {
         final Customer newCustomer = Customer.builder()
-                                             .email("test")
                                              .username("test")
+                                             .email("test")
                                              .firstName("test")
                                              .lastName("test")
                                              .build();
@@ -37,12 +37,12 @@ public class CustomerRepositoryTest {
 
         final Customer c1 = customerRepository.findOne("test");
         assertThat(c1).isEqualTo(newCustomer);
-        assertThat(c1.getUsername()).isEqualTo("test");
+        assertThat(c1.getEmail()).isEqualTo("test");
         assertThat(c1.getFirstName()).isEqualTo("test");
         assertThat(c1.getLastName()).isEqualTo("test");
 
         newCustomer.handle(ChangeCoreCustomerData.builder()
-                                                 .username("test1")
+                                                 .email("test1")
                                                  .firstName("test2")
                                                  .lastName("test3")
                                                  .build());
@@ -50,7 +50,7 @@ public class CustomerRepositoryTest {
 
         final Customer c2 = customerRepository.findOne("test");
         assertThat(c2).isEqualTo(newCustomer);
-        assertThat(c1.getUsername()).isEqualTo("test1");
+        assertThat(c1.getEmail()).isEqualTo("test1");
         assertThat(c1.getFirstName()).isEqualTo("test2");
         assertThat(c1.getLastName()).isEqualTo("test3");
     }

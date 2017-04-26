@@ -10,6 +10,8 @@ import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,6 +45,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.PENDING;
+
     @ManyToOne
     @JoinColumn(name = "customer_id", foreignKey = @ForeignKey(name = "fk_order_customer"))
     private Customer customer;
@@ -55,5 +60,10 @@ public class Order {
     )
     @Singular
     private List<OrderQuantity> products;
+
+    public enum Status {
+        PENDING,
+        CONFIRMED
+    }
 
 }

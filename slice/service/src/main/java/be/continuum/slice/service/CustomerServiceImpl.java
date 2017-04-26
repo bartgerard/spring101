@@ -16,6 +16,7 @@ import java.util.function.Consumer;
  * @version v0.0.1
  */
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
@@ -23,31 +24,31 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional(readOnly = true)
     @Override
-    public Customer findOne(final String email) {
-        return customerRepository.findOne(email);
+    public Customer findOne(final String username) {
+        return customerRepository.findOne(username);
     }
 
     @Override
     public Customer save(
-            final String email,
+            final String username,
             final Consumer<Customer> event
     ) {
-        final Customer customer = findOrCreate(email);
+        final Customer customer = findOrCreate(username);
 
         event.accept(customer);
 
         return customerRepository.save(customer);
     }
 
-    private Customer findOrCreate(final String email) {
-        final Customer existingCustomer = customerRepository.findOne(email);
+    private Customer findOrCreate(final String username) {
+        final Customer existingCustomer = customerRepository.findOne(username);
 
         if (Objects.nonNull(existingCustomer)) {
             return existingCustomer;
         }
 
         return Customer.builder()
-                       .email(email)
+                       .username(username)
                        .build();
     }
 

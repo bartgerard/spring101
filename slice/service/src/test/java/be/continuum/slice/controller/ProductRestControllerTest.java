@@ -1,14 +1,17 @@
 package be.continuum.slice.controller;
 
 import be.continuum.slice.model.ConsumableProduct;
+import be.continuum.slice.model.Product;
 import be.continuum.slice.service.ProductService;
 import be.continuum.slice.value.Category;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -19,6 +22,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +56,8 @@ public class ProductRestControllerTest {
                                  .category(candy)
                                  .build()
         ));
+
+        when(productService.save(Mockito.any(Product.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
     }
 
     @Test
@@ -64,6 +70,32 @@ public class ProductRestControllerTest {
                .andExpect(jsonPath("$[0].category.name", is("candy")))
                .andExpect(jsonPath("$[1].name", is("bounty")))
                .andExpect(jsonPath("$[1].category.name", is("candy")));
+    }
+
+    @Test
+    public void createConsumableProduct() throws Exception {
+        mockMvc.perform(
+                post("/products/consumables")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content("{\"name\":\"twix\"}")
+        )
+               .andExpect(status().isOk())
+               .andDo(MockMvcResultHandlers.print())
+               .andExpect(jsonPath("name", is("twix")))
+               .andExpect(jsonPath("type", is("CONSUMABLE")));
+    }
+
+    @Test
+    public void createNonConsumableProduct() throws Exception {
+        mockMvc.perform(
+                post("/products/non-consumables")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content("{\"name\":\"kitchen-knife\"}")
+        )
+               .andExpect(status().isOk())
+               .andDo(MockMvcResultHandlers.print())
+               .andExpect(jsonPath("name", is("kitchen-knife")))
+               .andExpect(jsonPath("type", is("NON_CONSUMABLE")));
     }
 
 }

@@ -45,4 +45,11 @@ public abstract class Product {
     @NonNull
     private Category category;
 
+    public abstract Type getType();
+
+    public enum Type {
+        CONSUMABLE,
+        NON_CONSUMABLE
+    }
+
 }

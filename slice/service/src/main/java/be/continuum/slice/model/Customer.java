@@ -20,7 +20,6 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -44,21 +43,21 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 @Getter
 @Builder
-@EqualsAndHashCode(of = "email")
+@EqualsAndHashCode(of = "username")
 @ToString
 public class Customer {
 
     @Id
-    private String email;
-
     private String username;
+
+    private String email;
 
     private String firstName;
 
     private String lastName;
 
     @Embedded
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @CollectionTable(
             name = "customer_phone",
             joinColumns = @JoinColumn(name = "customer_id"),
@@ -87,7 +86,7 @@ public class Customer {
     private final Map<String, Address> addresses = new HashMap<>();
 
     public void handle(final ChangeCoreCustomerData changeCoreCustomerData) {
-        this.username = changeCoreCustomerData.getUsername();
+        this.email = changeCoreCustomerData.getEmail();
         this.firstName = changeCoreCustomerData.getFirstName();
         this.lastName = changeCoreCustomerData.getLastName();
     }

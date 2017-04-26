@@ -12,10 +12,10 @@ import java.util.function.Consumer;
  */
 public interface CustomerService {
 
-    Customer findOne(String email);
+    Customer findOne(String username);
 
     Customer save(
-            String email,
+            String username,
             Consumer<Customer> event
     );
 

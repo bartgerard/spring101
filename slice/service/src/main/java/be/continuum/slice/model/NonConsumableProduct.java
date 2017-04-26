@@ -33,4 +33,9 @@ public class NonConsumableProduct extends Product {
         this.field2 = field2;
     }
 
+    @Override
+    public Type getType() {
+        return Type.NON_CONSUMABLE;
+    }
+
 }

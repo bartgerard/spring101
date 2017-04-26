@@ -21,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @ToString
 public class ChangeCoreCustomerData {
 
-    private String username;
+    private String email;
 
     private String firstName;
 

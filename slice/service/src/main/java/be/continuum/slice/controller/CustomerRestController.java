@@ -34,89 +34,89 @@ public class CustomerRestController {
 
     private final CustomerService customerService;
 
-    @GetMapping("{email}")
-    public Customer byEmail(@PathVariable final String email) {
-        return customerService.findOne(email);
+    @GetMapping("{username}")
+    public Customer byEmail(@PathVariable final String username) {
+        return customerService.findOne(username);
     }
 
-    @PutMapping("{email}")
+    @PutMapping("{username}")
     public Customer save(
-            @PathVariable final String email,
+            @PathVariable final String username,
             @RequestBody final ChangeCoreCustomerData changeCoreCustomerData
     ) {
-        return customerService.save(email, customer -> customer.handle(changeCoreCustomerData));
+        return customerService.save(username, customer -> customer.handle(changeCoreCustomerData));
     }
 
-    @GetMapping("/{email}/phones")
-    public Set<PhoneNumber> phonesByEmail(@PathVariable final String email) {
-        return customerService.findOne(email)
+    @GetMapping("/{username}/phone-numbers")
+    public Set<PhoneNumber> phonesByEmail(@PathVariable final String username) {
+        return customerService.findOne(username)
                               .getPhoneNumbers();
     }
 
-    @PostMapping("/{email}/phones")
+    @PostMapping("/{username}/phone-numbers")
     public Set<PhoneNumber> addPhoneNumber(
-            @PathVariable final String email,
+            @PathVariable final String username,
             @RequestBody final AddPhoneNumber addPhoneNumber
     ) {
-        return customerService.save(email, customer -> customer.handle(addPhoneNumber))
+        return customerService.save(username, customer -> customer.handle(addPhoneNumber))
                               .getPhoneNumbers();
     }
 
-    @DeleteMapping("/{email}/phones")
+    @DeleteMapping("/{username}/phone-numbers")
     public Set<PhoneNumber> removePhoneNumber(
-            @PathVariable final String email,
+            @PathVariable final String username,
             @RequestBody final RemovePhoneNumber removePhoneNumber
     ) {
-        return customerService.save(email, customer -> customer.handle(removePhoneNumber))
+        return customerService.save(username, customer -> customer.handle(removePhoneNumber))
                               .getPhoneNumbers();
     }
 
-    @GetMapping("/{email}/allergens")
-    public Set<FoodAllergen> allergensByEmail(@PathVariable final String email) {
-        return customerService.findOne(email)
+    @GetMapping("/{username}/allergens")
+    public Set<FoodAllergen> allergensByEmail(@PathVariable final String username) {
+        return customerService.findOne(username)
                               .getAllergens();
     }
 
-    @PutMapping("/{email}/allergens/{allergen}")
+    @PutMapping("/{username}/allergens/{allergen}")
     public Set<FoodAllergen> addAllergen(
-            @PathVariable final String email,
+            @PathVariable final String username,
             @PathVariable final FoodAllergen allergen
     ) {
-        return customerService.save(email, customer -> customer.addAllergen(allergen))
+        return customerService.save(username, customer -> customer.addAllergen(allergen))
                               .getAllergens();
     }
 
-    @DeleteMapping("/{email}/allergens/{allergen}")
+    @DeleteMapping("/{username}/allergens/{allergen}")
     public Set<FoodAllergen> removeAllergen(
-            @PathVariable final String email,
+            @PathVariable final String username,
             @PathVariable final FoodAllergen allergen
     ) {
-        return customerService.save(email, customer -> customer.removeAllergen(allergen))
+        return customerService.save(username, customer -> customer.removeAllergen(allergen))
                               .getAllergens();
     }
 
-    @GetMapping("/{email}/addresses")
-    public Map<String, Address> addressesByEmail(@PathVariable final String email) {
-        return customerService.findOne(email)
+    @GetMapping("/{username}/addresses")
+    public Map<String, Address> addressesByEmail(@PathVariable final String username) {
+        return customerService.findOne(username)
                               .getAddresses();
     }
 
-    @PutMapping("/{email}/addresses/{alias}")
+    @PutMapping("/{username}/addresses/{alias}")
     public Map<String, Address> addAddress(
-            @PathVariable final String email,
+            @PathVariable final String username,
             @PathVariable final String alias,
             @RequestBody final Address address
     ) {
-        return customerService.save(email, customer -> customer.addAddress(alias, address))
+        return customerService.save(username, customer -> customer.addAddress(alias, address))
                               .getAddresses();
     }
 
-    @DeleteMapping("/{email}/addresses/{alias}")
+    @DeleteMapping("/{username}/addresses/{alias}")
     public Map<String, Address> removeAllergen(
-            @PathVariable final String email,
+            @PathVariable final String username,
             @PathVariable final String alias
     ) {
-        return customerService.save(email, customer -> customer.removeAddress(alias))
+        return customerService.save(username, customer -> customer.removeAddress(alias))
                               .getAddresses();
     }
 
