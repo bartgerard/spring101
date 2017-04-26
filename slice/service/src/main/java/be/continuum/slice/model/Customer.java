@@ -23,7 +23,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.MapKeyColumn;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -77,7 +76,7 @@ public class Customer {
 
     @Embedded
     @ElementCollection
-    @JoinTable(
+    @CollectionTable(
             name = "customer_address",
             joinColumns = @JoinColumn(name = "customer_id"),
             foreignKey = @ForeignKey(name = "fk_customer_address")

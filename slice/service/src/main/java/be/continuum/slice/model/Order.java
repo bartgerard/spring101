@@ -16,9 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +51,8 @@ public class Order {
     @JoinColumn(name = "customer_id", foreignKey = @ForeignKey(name = "fk_order_customer"))
     private Customer customer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "product_order",
-            joinColumns = @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_product_order")),
-            inverseJoinColumns = @JoinColumn(name = "product_name", foreignKey = @ForeignKey(name = "fk_order_product"))
-    )
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_product_order"))
     private final List<OrderQuantity> products = new ArrayList<>();
 
     public enum Status {
