@@ -1,6 +1,6 @@
 package be.continuum.slice.controller;
 
-import be.continuum.slice.model.Product;
+import be.continuum.slice.model.ConsumableProduct;
 import be.continuum.slice.service.ProductService;
 import be.continuum.slice.value.Category;
 import org.junit.Before;
@@ -43,14 +43,14 @@ public class ProductRestControllerTest {
         final Category candy = Category.of("candy");
 
         when(productService.findAll()).thenReturn(Arrays.asList(
-                Product.builder()
-                       .name("mars")
-                       .category(candy)
-                       .build(),
-                Product.builder()
-                       .name("bounty")
-                       .category(candy)
-                       .build()
+                ConsumableProduct.builder()
+                                 .name("mars")
+                                 .category(candy)
+                                 .build(),
+                ConsumableProduct.builder()
+                                 .name("bounty")
+                                 .category(candy)
+                                 .build()
         ));
     }
 

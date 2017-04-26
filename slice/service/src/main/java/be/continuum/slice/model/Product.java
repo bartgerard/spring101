@@ -2,18 +2,21 @@ package be.continuum.slice.model;
 
 import be.continuum.slice.value.Category;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
-import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * Product
@@ -21,19 +24,23 @@ import static lombok.AccessLevel.PRIVATE;
  * @author bartgerard
  * @version v0.0.1
  */
-@Entity
-@NoArgsConstructor(access = PRIVATE)
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
 @Getter
-@Builder
 @EqualsAndHashCode(of = "name")
-public class Product {
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "type")
+public abstract class Product {
 
     @Id
+    @NonNull
     private String name;
 
     @Embedded
     @AttributeOverride(name = "name", column = @Column(name = "category"))
+    @NonNull
     private Category category;
 
 }

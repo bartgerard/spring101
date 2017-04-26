@@ -5,18 +5,20 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -27,7 +29,7 @@ import static lombok.AccessLevel.PRIVATE;
  * @version v0.0.1
  */
 @Entity
-@Table(name = "product_order") // order is a reserved keyword in SQL
+@Table(name = "orders") // order is a reserved keyword in SQL
 @NoArgsConstructor(access = PRIVATE)
 @AllArgsConstructor(access = PRIVATE)
 @Getter
@@ -37,10 +39,19 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_product_order"))
-    private final List<Product> products = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "customer_id", foreignKey = @ForeignKey(name = "fk_order_customer"))
+    private Customer customer;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "product_order",
+            joinColumns = @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_product_order")),
+            inverseJoinColumns = @JoinColumn(name = "product_name", foreignKey = @ForeignKey(name = "fk_order_product"))
+    )
+    @Singular
+    private List<OrderQuantity> products;
 
 }
