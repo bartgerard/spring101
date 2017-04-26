@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Singular;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,6 +36,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @Builder
 @EqualsAndHashCode(of = "id")
+@ToString
 public class Order {
 
     @Id

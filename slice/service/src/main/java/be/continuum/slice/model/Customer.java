@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -44,6 +45,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @Builder
 @EqualsAndHashCode(of = "email")
+@ToString
 public class Customer {
 
     @Id

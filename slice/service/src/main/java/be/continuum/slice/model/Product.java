@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -28,6 +29,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor(access = PROTECTED)
 @Getter
 @EqualsAndHashCode(of = "name")
+@ToString
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
