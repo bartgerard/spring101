@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -29,6 +30,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> findAll(final Collection<String> names) {
+        return productRepository.findAll(names);
     }
 
     @Override

@@ -63,8 +63,10 @@ public class OrderRepositoryTest {
 
         final Order o1 = Order.builder()
                               .customer(customer)
-                              .product(OrderQuantity.of(product, 1))
                               .build();
+
+        o1.getProducts()
+          .add(OrderQuantity.of(product, 1));
 
         orderRepository.save(o1);
 

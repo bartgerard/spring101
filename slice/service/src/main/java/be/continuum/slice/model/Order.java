@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Singular;
 import lombok.ToString;
 
 import javax.persistence.CascadeType;
@@ -21,6 +20,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -58,8 +58,7 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_product_order")),
             inverseJoinColumns = @JoinColumn(name = "product_name", foreignKey = @ForeignKey(name = "fk_order_product"))
     )
-    @Singular
-    private List<OrderQuantity> products;
+    private final List<OrderQuantity> products = new ArrayList<>();
 
     public enum Status {
         PENDING,

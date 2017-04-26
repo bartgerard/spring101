@@ -3,7 +3,6 @@ package be.continuum.slice.service;
 import be.continuum.slice.model.Order;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * OrderService
@@ -13,8 +12,10 @@ import java.util.UUID;
  */
 public interface OrderService {
 
-    Order findOne(UUID id);
+    Order findOne(Long id);
 
     List<Order> findAll();
+
+    Order save(Order order);
 
 }

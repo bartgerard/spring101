@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * OrderServiceImpl
@@ -23,13 +22,17 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
-    public Order findOne(final UUID id) {
+    public Order findOne(final Long id) {
         return orderRepository.findOne(id);
     }
 
     @Override
     public List<Order> findAll() {
         return orderRepository.findAll();
+    }
+
+    public Order save(final Order order) {
+        return orderRepository.save(order);
     }
 
 }
