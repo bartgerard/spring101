@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -18,6 +19,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 @Getter
 @Builder
+@ToString
 public class RemovePhoneNumber {
     private PhoneNumber phoneNumber;
 }

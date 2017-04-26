@@ -55,4 +55,8 @@ public class PointCutLibrary {
     public void springControllerOperation() {
     }
 
+    @Pointcut("sliceOperation() && within(@org.springframework.web.bind.annotation.RestController *)")
+    public void springRestControllerOperation() {
+    }
+
 }

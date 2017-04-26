@@ -31,7 +31,7 @@ public class LoggingAdvice {
      * @return the method return value
      * @throws Throwable any throwable thrown by the execution
      */
-    @Around("be.continuum.slice.aop.PointCutLibrary.springServiceOperation()")
+    @Around("be.continuum.slice.aop.PointCutLibrary.springRestControllerOperation()")
     public Object log(final ProceedingJoinPoint call) throws Throwable {
         // Get the logger that handles the target instance of the method execution.
         final Signature signature = call.getSignature();
@@ -55,20 +55,24 @@ public class LoggingAdvice {
         if (logger.isInfoEnabled()) {
             logger.info(signature.toLongString());
             logger.info(String.format("Invoke method [%s] on service [%s]", methodName, targetName));
-            Object[] parameterValues = call.getArgs();
+
+            final Object[] parameterValues = call.getArgs();
             String[] parameterNames = new String[parameterValues.length];
+
             if ((methodSignature.getParameterNames() != null) && methodSignature.getParameterNames().length == parameterNames.length) {
                 parameterNames = methodSignature.getParameterNames();
             }
 
             for (int i = 0; i < parameterValues.length; i++) {
-                String parameterName = (parameterNames[i] == null ? String.valueOf(i) : parameterNames[i]);
-                String parameterValue;
+                final String parameterName = (parameterNames[i] == null ? String.valueOf(i) : parameterNames[i]);
+                final String parameterValue;
+
                 if ((parameterValues[i] instanceof byte[]) && (parameterValues[i] != null)) {
                     parameterValue = String.format("byte array length [%s]", ((byte[]) parameterValues[i]).length);
                 } else {
                     parameterValue = String.valueOf(parameterValues[i]);
                 }
+
                 logger.info(String.format("|---parameter [%s] = [%s]", parameterName, parameterValue));
             }
         }
