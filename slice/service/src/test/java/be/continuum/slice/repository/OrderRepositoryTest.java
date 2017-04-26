@@ -49,7 +49,7 @@ public class OrderRepositoryTest {
         customerRepository.save(c1);
 
         final ConsumableProduct p1 = ConsumableProduct.builder()
-                                                      .name("twix")
+                                                      .name("milky-way")
                                                       .category(Category.of("CANDY"))
                                                       .build();
 
@@ -59,7 +59,7 @@ public class OrderRepositoryTest {
     @Test
     public void saveOrder() {
         final Customer customer = customerRepository.findOne("test");
-        final Product product = productRepository.findOne("twix");
+        final Product product = productRepository.findOne("milky-way");
 
         final Order o1 = Order.builder()
                               .customer(customer)
