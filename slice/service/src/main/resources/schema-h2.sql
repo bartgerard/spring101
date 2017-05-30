@@ -55,7 +55,7 @@ CREATE TABLE orders (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE order_quantity (
+CREATE TABLE order_line (
   product_name VARCHAR(255) NOT NULL,
   amount       INTEGER      NOT NULL,
   order_id     BIGINT,
@@ -77,10 +77,10 @@ ALTER TABLE consumable_product
 ALTER TABLE non_consumable_product
   ADD CONSTRAINT fk_non_consumable_product FOREIGN KEY (name) REFERENCES product;
 
-ALTER TABLE order_quantity
-  ADD CONSTRAINT fk_order_quantity_product FOREIGN KEY (product_name) REFERENCES product;
+ALTER TABLE order_line
+  ADD CONSTRAINT fk_order_line_product FOREIGN KEY (product_name) REFERENCES product;
 
-ALTER TABLE order_quantity
+ALTER TABLE order_line
   ADD CONSTRAINT fk_product_order FOREIGN KEY (order_id) REFERENCES orders;
 
 ALTER TABLE orders

@@ -53,7 +53,7 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "fk_product_order"))
-    private final List<OrderQuantity> products = new ArrayList<>();
+    private final List<OrderLine> products = new ArrayList<>();
 
     public enum Status {
         PENDING,

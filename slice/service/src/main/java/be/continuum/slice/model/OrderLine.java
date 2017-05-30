@@ -30,7 +30,7 @@ import static lombok.AccessLevel.PROTECTED;
 @ToString
 
 @Entity
-public class OrderQuantity {
+public class OrderLine {
 
     @Id
     @Column(name = "product_name")
@@ -39,16 +39,16 @@ public class OrderQuantity {
     @Getter(NONE)
     @MapsId
     @ManyToOne
-    @JoinColumn(name = "product_name", foreignKey = @ForeignKey(name = "fk_order_quantity_product"))
+    @JoinColumn(name = "product_name", foreignKey = @ForeignKey(name = "fk_order_line_product"))
     private Product product;
 
     private int amount;
 
-    public static OrderQuantity of(
+    public static OrderLine of(
             final Product product,
             int amount
     ) {
-        return new OrderQuantity(product.getName(), product, amount);
+        return new OrderLine(product.getName(), product, amount);
     }
 
 }
